@@ -63,29 +63,25 @@ const knownCommands = {
   song: songCommand
 };
 
-// Function called when the "echo" command is issued:
+
+let client = new tmi.client(config)
+
+client.on('message', onMessageHandler)
+client.on('connected', onConnectedHandler)
+client.on('disconnected', onDisconnectedHandler)
+
+client.connect().catch(e => console.log);
+
 function songCommand(target, context, params) {
 
   const message = `cmgriffing is currently listening to ${song.songName} by ${album.artist}. It is track #${song.songNumber} on ${album.album}. You can find the album here: ${album.url}`
 
   if(context['message-type'] === 'whisper') {
-    client.whisper(target, message)
+    client.whisper(target, message).catch(e => console.log)
   } else {
-    client.say(target, message)
+    client.say(target, message).catch(e => console.log)
   }
 }
-
-
-// Create a client with our options:
-let client = new tmi.client(config)
-
-// Register our event handlers (defined below):
-client.on('message', onMessageHandler)
-client.on('connected', onConnectedHandler)
-client.on('disconnected', onDisconnectedHandler)
-
-// Connect to Twitch:
-client.connect()
 
 // Called every time a message comes in:
 function onMessageHandler (target, context, msg, self) {
