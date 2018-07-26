@@ -1,3 +1,9 @@
+chrome.runtime.onMessage.addListener(function(request, sender) {
+  if (request.action == "getSong") {
+    postData('http://localhost:4242/api/song', JSON.parse(request.source));
+  }
+});
+
 chrome.browserAction.onClicked.addListener(() => {
   console.log('clicked');
   findTab().then((tab) => {
@@ -21,7 +27,12 @@ chrome.browserAction.onClicked.addListener(() => {
       console.log('send success');
     }).catch((error) => {
       console.log('send failure');
+    });
+
+    chrome.tabs.executeScript(tab.id, {
+      file: 'get-song-name.js'
     })
+
   }).catch(error => {
     console.log('something has gone terribly wrong', error)
   });
@@ -33,7 +44,6 @@ function findTab() {
   return new Promise((resolve, reject) => {
     chrome.tabs.query({
       audible: true,
-      // currentWindow: true
     }, (tabs) => {
       console.log('query result: ', tabs);
   
