@@ -18,7 +18,7 @@ app.get('/api/album', cors(), (req, res) => {
   res.json(album);
 });
 
-app.post('/api/album', (req, res) => {
+app.post('/api/album', cors(), (req, res) => {
   console.log('req.body', req.body);
   album = req.body;
   res.sendStatus(200);
@@ -28,7 +28,7 @@ app.get('/api/song', cors(), (req, res) => {
   res.json(song);
 });
 
-app.post('/api/song', (req, res) => {
+app.post('/api/song', cors(), (req, res) => {
   console.log('req.body', req.body);
   song = req.body;
   res.sendStatus(200);
@@ -43,8 +43,9 @@ app.listen(4242, () => console.log('Example app listening on port 4242!'));
 
 // Valid commands start with:
 let commandPrefix = '!'
-// Define configuration options:
-let opts = {
+
+/* example config
+{
   identity: {
     username: '',
     password: 'oauth:' + ''
@@ -53,6 +54,9 @@ let opts = {
     ''
   ]
 }
+*/
+let config = require('./config.json');
+
 
 // These are the commands the bot knows (defined below):
 const knownCommands = {
@@ -60,7 +64,7 @@ const knownCommands = {
 };
 
 // Function called when the "echo" command is issued:
-function songCommand (target, context, params) {
+function songCommand(target, context, params) {
 
   const message = `cmgriffing is currently listening to ${song.songName} by ${album.artist}. It is track #${song.songNumber} on ${album.album}. You can find the album here: ${album.url}`
 
@@ -73,7 +77,7 @@ function songCommand (target, context, params) {
 
 
 // Create a client with our options:
-let client = new tmi.client(opts)
+let client = new tmi.client(config)
 
 // Register our event handlers (defined below):
 client.on('message', onMessageHandler)
@@ -81,7 +85,7 @@ client.on('connected', onConnectedHandler)
 client.on('disconnected', onDisconnectedHandler)
 
 // Connect to Twitch:
-// client.connect()
+client.connect()
 
 // Called every time a message comes in:
 function onMessageHandler (target, context, msg, self) {

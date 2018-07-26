@@ -1,10 +1,21 @@
-chrome.runtime.onMessage.addListener(function(request, sender) {
-  if (request.action == "getSong") {
-    postData('http://localhost:4242/api/song', JSON.parse(request.source));
+let enabled = false;
+
+chrome.browserAction.onClicked.addListener(() => {
+  if(!enabled) {
+    enabled = true;
+    chrome.browserAction.setBadgeBackgroundColor({color: [255,0,0,255]});
+    chrome.browserAction.setBadgeText({text: 'rec'});
+  } else {
+    enabled = false;
+    chrome.browserAction.setBadgeBackgroundColor({color: [0,0,0,0]});
+    chrome.browserAction.setBadgeText({text: ''});
   }
 });
 
-chrome.browserAction.onClicked.addListener(() => {
+setInterval(() => {
+  if(!enabled) {
+    return;
+  }
   console.log('clicked');
   findTab().then((tab) => {
 
@@ -31,14 +42,18 @@ chrome.browserAction.onClicked.addListener(() => {
 
     chrome.tabs.executeScript(tab.id, {
       file: 'get-song-name.js'
-    })
+    }, (scrapedSong) => { 
+      console.log('scrapedSong', scrapedSong);
+      if(scrapedSong[0]) {
+        postData('http://localhost:4242/api/song', scrapedSong[0]);
+      }
+    });
 
   }).catch(error => {
     console.log('something has gone terribly wrong', error)
   });
 
-  
-});
+}, 5000);
 
 function findTab() {
   return new Promise((resolve, reject) => {
@@ -58,7 +73,7 @@ function findTab() {
       tabs.map((tab) => {
         if(/bandcamp\.com/.test(tab.url) && !foundTab) {
           foundTab = true;
-          alert(`${tab.title} - ${tab.url}`);
+          //alert(`${tab.title} - ${tab.url}`);
           console.log(`${tab.title} - ${tab.url}`);
           resolve(tab);
         }
@@ -89,6 +104,6 @@ const postData = (url = ``, data = {}) => {
         referrer: "no-referrer", // no-referrer, *client
         body: JSON.stringify(data), // body data type must match "Content-Type" header
     })
-    .then(response => response.json()) // parses response to JSON
+    .then(response => {}) // parses response to JSON
     .catch(error => console.error(`Fetch Error =\n`, error));
 };
