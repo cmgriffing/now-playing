@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const tmi = require('tmi.js');
 
 let album = {};
 let song = {};
