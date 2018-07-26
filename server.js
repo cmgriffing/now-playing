@@ -55,10 +55,12 @@ let opts = {
 }
 
 // These are the commands the bot knows (defined below):
-let knownCommands = { song }
+const knownCommands = {
+  song: songCommand
+};
 
 // Function called when the "echo" command is issued:
-function song (target, context, params) {
+function songCommand (target, context, params) {
 
   const message = `cmgriffing is currently listening to ${song.songName} by ${album.artist}. It is track #${song.songNumber} on ${album.album}. You can find the album here: ${album.url}`
 
