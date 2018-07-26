@@ -1,0 +1,45 @@
+<html>
+  <body>
+    <div id="output">
+      <span class="album-wrapper">
+        <span class="label">Album:</span>
+        <span class="album"></span>
+      </span>
+      <span class="artist-wrapper">
+        <span class="label">Artist:</span>
+        <span class="artist"></span>
+      </span>
+    </div>
+    <script src="./index.js"></script>
+    <style>
+      #output {
+        color: #FFF;
+        padding: 10px;
+        text-shadow:
+          rgb(0, 0, 0) 3px 0px 8px,
+          rgb(0, 0, 0) -3px 0px 8px,
+          rgb(0, 0, 0) 0px 3px 8px,
+          rgb(0, 0, 0) 0px -3px 8px;
+      }
+
+      .album, .artist, .label {
+        font-family: "Comic Sans MS", cursive, sans-serif;
+        font-size: 60px;
+        letter-spacing: 1px;
+      }
+
+      .label {
+        text-decoration: underline;
+        margin-right: 10px;
+      }
+
+      .album-wrapper {
+        float: left;
+      }
+
+      .artist-wrapper {
+        float: right;
+      }
+    </style>
+  </body>
+</html>

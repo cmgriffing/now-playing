@@ -5,13 +5,20 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+let album = {};
+
 app.use(bodyParser.json());
+app.use(express.static('static'))
 
 app.options('*', cors());
 
-app.post('/receive', (req, res) => {
+app.get('/api/album', (req, res) => {
+  res.json(album);
+});
+
+app.post('/api/album', (req, res) => {
   console.log('req.body', req.body);
-  fs.writeFileSync(path.resolve('current-album.txt'), `${req.body.album} \n${req.body.artist}\n${req.body.url}`);
+  album = req.body;
   res.sendStatus(200);
 });
 

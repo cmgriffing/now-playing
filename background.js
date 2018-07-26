@@ -17,7 +17,7 @@ chrome.browserAction.onClicked.addListener(() => {
       }
     });
 
-    postData('http://localhost:4242/receive', body).then((result) => {
+    postData('http://localhost:4242/api/album', body).then((result) => {
       console.log('send success');
     }).catch((error) => {
       console.log('send failure');
