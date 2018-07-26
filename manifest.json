@@ -1,0 +1,14 @@
+{
+  "name": "Now Playing",
+  "version": "1.0",
+  "description": "Logs currently playing song and album to text file and updates nightbot command.",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {},
+  "permissions": [
+    "tabs"
+  ],
+  "manifest_version": 2
+}
