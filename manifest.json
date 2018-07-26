@@ -8,7 +8,8 @@
   },
   "browser_action": {},
   "permissions": [
-    "tabs"
+    "tabs",
+    "*.bandcamp.com"
   ],
   "manifest_version": 2
 }
