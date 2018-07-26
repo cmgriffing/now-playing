@@ -14,7 +14,7 @@ app.use(express.static('static'))
 
 app.options('*', cors());
 
-app.get('/api/album', (req, res) => {
+app.get('/api/album', cors(), (req, res) => {
   res.json(album);
 });
 
@@ -24,7 +24,7 @@ app.post('/api/album', (req, res) => {
   res.sendStatus(200);
 });
 
-app.get('/api/song', (req, res) => {
+app.get('/api/song', cors(), (req, res) => {
   res.json(song);
 });
 
@@ -35,7 +35,6 @@ app.post('/api/song', (req, res) => {
 });
 
 app.listen(4242, () => console.log('Example app listening on port 4242!'));
-
 
 //
 // Bot Stuff
