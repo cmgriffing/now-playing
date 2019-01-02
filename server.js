@@ -40,9 +40,19 @@ app.listen(4242, () => console.log('Example app listening on port 4242!'));
 // Bot Stuff
 //
 
+const didyouknowResponses = [
+  'did you know chris snowboards a lot even though he has broken collar bones',
+  'did you know chris is a framework slut',
+  'did you know chris cried once watching an ad that popped up in youtube',
+  'did you know chris used ipfs to avoid all his server cost problems',
+  'did you know chris has only one chrome extention and its his',
+  'did you know chris is getting annoyed rn with all the did you know trivia',
+  'did you know chris once streamed once for 15 hours'
+];
+
 
 // Valid commands start with:
-let commandPrefix = '!'
+let commandPrefix = '!';
 
 /* example config
 {
@@ -60,7 +70,8 @@ let config = require('./config.json');
 
 // These are the commands the bot knows (defined below):
 const knownCommands = {
-  song: songCommand
+  song: songCommand,
+  didyouknow: didyouknowCommand,
 };
 
 
@@ -80,6 +91,16 @@ function songCommand(target, context, params) {
     client.whisper(target, message).catch(e => console.log)
   } else {
     client.say(target, message).catch(e => console.log)
+  }
+}
+
+function didyouknowCommand(target, context, params) {
+  const response = didyouknowResponses[Math.floor(Math.random() * didyouknowResponses.length)];
+
+  if(context['message-type'] === 'whisper') {
+    client.whisper(target, response).catch(e => console.log)
+  } else {
+    client.say(target, response).catch(e => console.log)
   }
 }
 
