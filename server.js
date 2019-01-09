@@ -45,9 +45,9 @@ const didyouknowResponses = [
   'did you know chris is a framework slut',
   'did you know chris cried once watching an ad that popped up in youtube',
   'did you know chris used ipfs to avoid all his server cost problems',
-  'did you know chris has only one chrome extention and its his',
+  'did you know chris has only one chrome extention which he created',
   'did you know chris is getting annoyed rn with all the did you know trivia',
-  'did you know chris once streamed for 15 hours'
+  'did you know chris once streamed for 15 hours and says working 14hrs a day is bullshit'
 ];
 
 
