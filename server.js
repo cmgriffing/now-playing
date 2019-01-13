@@ -92,6 +92,7 @@ const didyouknowResponses = [
   'did you know chris has only one chrome extension and its his',
   'did you know chris is getting annoyed rn with all the did you know trivia',
   'did you know chris once streamed once for 15 hours'
+  'did you know chris would storm out of an interview if you ask him the difference between call and apply methods in js'
 ];
 
 function didyouknowCommand(target, context, params) {
