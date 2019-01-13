@@ -40,17 +40,6 @@ app.listen(4242, () => console.log('Example app listening on port 4242!'));
 // Bot Stuff
 //
 
-const didyouknowResponses = [
-  'did you know chris snowboards a lot even though he has broken collar bones',
-  'did you know chris is a framework slut',
-  'did you know chris cried once watching an ad that popped up in youtube',
-  'did you know chris used ipfs to avoid all his server cost problems',
-  'did you know chris has only one chrome extention and its his',
-  'did you know chris is getting annoyed rn with all the did you know trivia',
-  'did you know chris once streamed for 15 hours'
-];
-
-
 // Valid commands start with:
 let commandPrefix = '!';
 
@@ -94,8 +83,27 @@ function songCommand(target, context, params) {
   }
 }
 
+const recentDidYouKnows = [];
+const didyouknowResponses = [
+  'did you know chris snowboards a lot even though he has broken collar bones',
+  'did you know chris is a framework slut',
+  'did you know chris cried once watching an ad that popped up in youtube',
+  'did you know chris used ipfs to avoid all his server cost problems',
+  'did you know chris has only one chrome extension and its his',
+  'did you know chris is getting annoyed rn with all the did you know trivia',
+  'did you know chris once streamed once for 15 hours'
+];
+
 function didyouknowCommand(target, context, params) {
-  const response = didyouknowResponses[Math.floor(Math.random() * didyouknowResponses.length)];
+  let response;
+  while(recentDidYouKnows.indexOf(response) > -1) {
+    response = didyouknowResponses[Math.floor(Math.random() * didyouknowResponses.length)];
+  }
+
+  if(recentDidYouKnows.length >= 3) {
+    recentDidYouKnows.shift();
+  }
+  recentDidYouKnows.push(response);
 
   if(context['message-type'] === 'whisper') {
     client.whisper(target, response).catch(e => console.log)
