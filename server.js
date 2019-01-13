@@ -48,6 +48,7 @@ const didyouknowResponses = [
   'did you know chris has only one chrome extention and its his',
   'did you know chris is getting annoyed rn with all the did you know trivia',
   'did you know chris once streamed for 15 hours'
+  'did you know chirs would walk out of an interview if you ask him about shift and unshift array methods in js'
 ];
 
 
