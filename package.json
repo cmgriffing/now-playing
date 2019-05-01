@@ -9,8 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "1.18.3",
-    "cors": "^2.8.4",
+    "axios": "^0.18.0",
+    "cors": "^2.8.5",
     "express": "4.16.3",
     "tmi.js": "^1.2.1"
   }

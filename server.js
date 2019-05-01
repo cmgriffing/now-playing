@@ -1,34 +1,32 @@
 const express = require('express');
 const app = express();
-const fs = require('fs');
-const path = require('path');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const tmi = require('tmi.js');
+const axios = require('axios');
 
 let album = {};
 let song = {};
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(express.static('static'))
 
-app.options('*', cors());
+app.use(cors());
 
-app.get('/api/album', cors(), (req, res) => {
+app.get('/api/album', (req, res) => {
   res.json(album);
 });
 
-app.post('/api/album', cors(), (req, res) => {
+app.post('/api/album', (req, res) => {
   console.log('req.body', req.body);
   album = req.body;
   res.sendStatus(200);
 });
 
-app.get('/api/song', cors(), (req, res) => {
+app.get('/api/song', (req, res) => {
   res.json(song);
 });
 
-app.post('/api/song', cors(), (req, res) => {
+app.post('/api/song', (req, res) => {
   console.log('req.body', req.body);
   song = req.body;
   res.sendStatus(200);
@@ -61,6 +59,7 @@ let config = require('./config.json');
 const knownCommands = {
   song: songCommand,
   didyouknow: didyouknowCommand,
+  weather: weatherCommand
 };
 
 
@@ -89,7 +88,7 @@ const didyouknowResponses = [
   'Did you know Chris is a framework slut?',
   'Did you know Chris once cried watching an ad that popped up in youtube?',
   'Did you know Chris used ipfs to avoid all his server cost problems?',
-  'Did you know Chris has only one chrome extension and it's his?',
+  'Did you know Chris has only one chrome extension and it\'s his?',
   'Did you know Chris is getting annoyed right now with all the did you know trivia?',
   'Did you know Chris once streamed for 21 hours?',
   'Did you know Chris would storm out of an interview if they asked him the difference between call and apply methods in js?'
@@ -111,6 +110,23 @@ function didyouknowCommand(target, context, params) {
   } else {
     client.say(target, response).catch(e => console.log)
   }
+}
+
+function weatherCommand(target, context) {
+  const weatherAPIurl = 'https://api.weather.gov/gridpoints/SEW/124,67/forecast/hourly';
+
+  axios.get(weatherAPIurl)
+  .then(res => {
+    if (res.status === 200) {
+      const {temperature: fahrenheit, windSpeed, shortForecast} = res.data.properties.periods[0];
+      
+      const celsius = Math.round((fahrenheit - 32) * 5 / 9);
+      const response = `${shortForecast} [${fahrenheit} F/ ${celsius} C] - Wind: ${windSpeed}`;
+
+      client.say(target, response).catch(e => console.log)
+    }
+  })
+  .catch(e => console.log)
 }
 
 // Called every time a message comes in:
