@@ -85,14 +85,14 @@ function songCommand(target, context, params) {
 
 const recentDidYouKnows = [];
 const didyouknowResponses = [
-  'did you know chris snowboards a lot even though he has broken collar bones',
-  'did you know chris is a framework slut',
-  'did you know chris cried once watching an ad that popped up in youtube',
-  'did you know chris used ipfs to avoid all his server cost problems',
-  'did you know chris has only one chrome extension and its his',
-  'did you know chris is getting annoyed rn with all the did you know trivia',
-  'did you know chris once streamed once for 15 hours'
-  'did you know chris would storm out of an interview if you ask him the difference between call and apply methods in js'
+  'Did you know Chris snowboards a lot even though he has broken collar bones?',
+  'Did you know Chris is a framework slut?',
+  'Did you know Chris once cried watching an ad that popped up in youtube?',
+  'Did you know Chris used ipfs to avoid all his server cost problems?',
+  'Did you know Chris has only one chrome extension and it's his?',
+  'Did you know Chris is getting annoyed right now with all the did you know trivia?',
+  'Did you know Chris once streamed for 21 hours?',
+  'Did you know Chris would storm out of an interview if they asked him the difference between call and apply methods in js?'
 ];
 
 function didyouknowCommand(target, context, params) {
