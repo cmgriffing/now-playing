@@ -89,7 +89,7 @@ const didyouknowResponses = [
   'Did you know Chris is a framework slut?',
   'Did you know Chris once cried watching an ad that popped up in youtube?',
   'Did you know Chris used ipfs to avoid all his server cost problems?',
-  'Did you know Chris has only one chrome extension and it's his?',
+  'Did you know Chris has only one chrome extension and it\'s his?',
   'Did you know Chris is getting annoyed right now with all the did you know trivia?',
   'Did you know Chris once streamed for 21 hours?',
   'Did you know Chris would storm out of an interview if they asked him the difference between call and apply methods in js?'
