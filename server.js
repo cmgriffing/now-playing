@@ -59,6 +59,11 @@ const knownCommands = {
   song: songCommand,
   didyouknow: didyouknowCommand,
   weather: weatherCommand,
+  in: gamingQueueIn,
+  out: gamingQueueOut,
+  join: gamingQueueJoin,
+  leave: gamingQueueLeave,
+  queue: gamingQueueState,
 };
 
 let client = new tmi.client(config);
@@ -181,4 +186,107 @@ function onConnectedHandler(addr, port) {
 function onDisconnectedHandler(reason) {
   console.log(`Womp womp, disconnected: ${reason}`);
   process.exit(1);
+}
+
+let gamingQueueValues = {};
+
+const gamingQueueStates = {
+  playing: 'playing',
+  waiting: 'waiting',
+};
+
+function gamingQueueIn(target, context, params) {
+  if (!isUserModOrBroadcaster(context)) {
+    return;
+  }
+  let playerName = getPlayerNameFromParams(params);
+  let newState = gamingQueueStates.playing;
+  changePlayerState(playerName, newState);
+  client.say(target, `${playerName} is now ${newState}`);
+}
+
+function gamingQueueOut(target, context, params) {
+  if (!isUserModOrBroadcaster(context)) {
+    return;
+  }
+  let playerName = getPlayerNameFromParams(params);
+  let newState = gamingQueueStates.waiting;
+  changePlayerState(playerName, newState);
+  client.say(target, `${playerName} is now ${newState}`);
+}
+
+function gamingQueueJoin(target, context, params) {
+  if (!isUserModOrBroadcaster(context)) {
+    return;
+  }
+  let playerName = getPlayerNameFromParams(params);
+  let newState = gamingQueueStates.waiting;
+  changePlayerState(playerName, newState);
+  client.say(target, `${playerName} joined the queue`);
+}
+
+function gamingQueueLeave(target, context, params) {
+  if (!isUserModOrBroadcaster(context)) {
+    return;
+  }
+  let playerName = getPlayerNameFromParams(params);
+  delete gamingQueueValues[playerName];
+  client.say(target, `${playerName} removed the queue`);
+}
+
+function gamingQueueState(target, context, params) {
+  let message = '';
+  if (gamingQueueValues.length === 0) {
+    message = 'The queue is empty';
+  } else {
+    let now = new Date().getTime();
+    for (var player in gamingQueueValues) {
+      let forMinutes = Math.floor(
+        (now - gamingQueueValues[player].stateChangedAt) / 60000
+      );
+      let state = gamingQueueValues[player].state;
+      console.log(player);
+      message += `${player}: ${state} (${forMinutes} minutes). `;
+    }
+
+    client.say(target, message);
+  }
+}
+
+function gamingQueueState(target, context, params) {
+  let message = '';
+  if (gamingQueueValues.length === 0) {
+    message = 'The queue is empty';
+  } else {
+    let now = new Date().getTime();
+    for (var player in gamingQueueValues) {
+      let forMinutes = Math.floor(
+        (now - gamingQueueValues[player].stateChangedAt) / 60000
+      );
+      let state = gamingQueueValues[player].state;
+      message += `${player}: ${state} (${forMinutes} minutes). `;
+    }
+
+    client.say(target, message);
+  }
+}
+
+let changePlayerState = (playerName, state) => {
+  gamingQueueValues[playerName] = {
+    state: state,
+    stateChangedAt: new Date().getTime(),
+  };
+};
+
+let getPlayerNameFromParams = params => {
+  let playerName = params[0];
+  if (playerName.substring(0, 1) === '@') {
+    playerName = playerName.substring(1);
+  }
+
+  return playerName;
+};
+
+function isUserModOrBroadcaster(context) {
+  return context.mod || context.badges.broadcaster === '1';
 }
