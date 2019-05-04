@@ -9,9 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.18.0",
-    "cors": "^2.8.5",
-    "express": "4.16.3",
-    "tmi.js": "^1.2.1"
+    "axios": "^0.18",
+    "cors": "^2.8",
+    "express": "^4.16",
+    "tmi.js": "^1.2"
   }
 }
