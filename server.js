@@ -95,7 +95,7 @@ const didyouknowResponses = [
 ];
 
 function didyouknowCommand(target, context, params) {
-  let response;
+  let response = didyouknowResponses[Math.floor(Math.random() * didyouknowResponses.length)];
   while(recentDidYouKnows.indexOf(response) > -1) {
     response = didyouknowResponses[Math.floor(Math.random() * didyouknowResponses.length)];
   }
