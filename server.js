@@ -41,15 +41,15 @@ app.listen(4242, () => console.log('Example app listening on port 4242!'));
 // Valid commands start with:
 let commandPrefix = '!';
 
-/* example config
+/* example config.json
 {
-  identity: {
-    username: '',
-    password: 'oauth:' + ''
-  },
-  channels: [
-    ''
-  ]
+    "identity": {
+        "username": "cadburybot",
+        "password": "oauth:..."
+    },
+    "channels": [
+        "cmgriffing"
+    ]
 }
 */
 let config = require('./config.json');
@@ -142,29 +142,24 @@ function weatherCommand(target, context) {
 // Called every time a message comes in:
 function onMessageHandler(target, context, msg, self) {
   if (self) {
+    // Ignore messages sent by the bot itself
     return;
-  } // Ignore messages from the bot
+  }
 
-  // This isn't a command since it has no prefix:
   if (msg.substr(0, 1) !== commandPrefix) {
+    // Ignore messages that don't start with the command prefix
     console.log(
       `[${target} (${context['message-type']})] ${context.username}: ${msg}`
     );
     return;
   }
 
-  // Split the message into individual words:
   const parse = msg.slice(1).split(' ');
-  // The command name is the first (0th) one:
   const commandName = parse[0];
-  // The rest (if any) are the parameters:
   const params = parse.splice(1);
 
-  // If the command is known, let's execute it:
   if (commandName in knownCommands) {
-    // Retrieve the function by its name:
     const command = knownCommands[commandName];
-    // Then call the command with parameters:
     command(target, context, params);
     console.log(`* Executed ${commandName} command for ${context.username}`);
   } else {
