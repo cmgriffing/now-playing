@@ -70,6 +70,10 @@ client.on('disconnected', onDisconnectedHandler);
 client.connect().catch(e => console.log);
 
 function songCommand(target, context, params) {
+  if (Object.keys(song).length === 0) {
+    client.say(target, 'Unable to fetch current song.').catch(e => console.log);
+    return;
+  }
   const message = `cmgriffing is currently listening to ${song.songName} by ${
     album.artist
   }. It is track #${song.songNumber} on ${
