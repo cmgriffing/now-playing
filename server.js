@@ -70,15 +70,24 @@ client.on('disconnected', onDisconnectedHandler);
 client.connect().catch(e => console.log);
 
 function songCommand(target, context, params) {
-  if (Object.keys(song).length === 0) {
-    client.say(target, 'Unable to fetch current song.').catch(e => console.log);
+  if (Object.keys(song).length === 0 || song.origin.toUpperCase() === "NONE") {
+    client.say(target, 'Unable to get current song.').catch(e => console.log);
     return;
   }
-  const message = `cmgriffing is currently listening to ${song.songName} by ${
-    album.artist
-  }. It is track #${song.songNumber} on ${
-    album.album
-  }. You can find the album here: ${album.url}`;
+  var message = "";
+  if(song.origin.toUpperCase() == "BANDCAMP"){
+    message += `We are currently listening to ${song.songName} by ${song.artist}.
+      It is track #${song.songNumber} on ${song.album}.
+      You can find the album here: ${song.albumURL}`;
+  } else if (song.origin.toUpperCase() == "YOUTUBE"){
+    message += `We are currently listening to ${song.songName}. You can find the song/video here: ${song.url}`;
+  } else if(song.origin.toUpperCase() == "SPOTIFY"){
+    message += `We are currently listening to ${song.songName} by ${song.artist}.`
+    if(song.albumName !== ""){
+      message += `It is on the album ${song.album}.`;
+    }
+    message += `You can find the album here: ${song.albumURL}.`;
+  } 
 
   if (context['message-type'] === 'whisper') {
     client.whisper(target, message).catch(e => console.log);

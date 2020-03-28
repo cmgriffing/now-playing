@@ -1,6 +1,6 @@
 {
   "name": "Now Playing",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "Logs currently playing song and album to text file and updates nightbot command.",
   "background": {
     "scripts": ["background.js"],
@@ -9,7 +9,10 @@
   "browser_action": {},
   "permissions": [
     "tabs",
-    "https://*.bandcamp.com/"
+    "https://*.bandcamp.com/",
+    "https://www.youtube.com/watch*",
+    "https://open.spotify.com/*"
+
   ],
   "manifest_version": 2
 }

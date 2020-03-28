@@ -5,4 +5,4 @@ services:
       context: .
       dockerfile: server.dockerfile
     ports:
-      - "4242:4242"
+      - "8293:8293"

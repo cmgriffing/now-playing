@@ -1,5 +1,5 @@
 setInterval(async () => {
-  const fetchResult = await fetch('http://localhost:4242/api/album');
+  const fetchResult = await fetch('http://localhost:8293/api/album');
   const album = await fetchResult.json();
   console.log('album', album);
   if (!album.album || !album.artist) {
