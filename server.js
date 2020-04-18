@@ -76,18 +76,87 @@ client.on("message", onMessageHandler);
 client.on("connected", onConnectedHandler);
 client.on("disconnected", onDisconnectedHandler);
 
-[
-  // subs and bits
+client.on(
   "resub",
-  "subscription",
+  (channel, username, streakMonths, message, userstate, methods) => {
+    const payload = {
+      channel,
+      username,
+      streakMonths,
+      message,
+      userstate,
+      methods,
+    };
+    createProxiedEventHandler("resub")(payload);
+  }
+);
+
+client.on("subscription", (channel, username, methods, message, userstate) => {
+  const payload = {
+    channel,
+    username,
+    methods,
+    message,
+    userstate,
+  };
+  createProxiedEventHandler("subscription")(payload);
+});
+
+client.on(
   "subgift",
+  (channel, username, streakMonths, recipient, methods, userstate) => {
+    const payload = {
+      channel,
+      username,
+      streakMonths,
+      recipient,
+      methods,
+      userstate,
+    };
+    createProxiedEventHandler("subgift")(payload);
+  }
+);
+
+client.on(
   "submysterygift",
-  "cheer",
-  // hosts and raids
-  "hosted",
-  "raided",
-].map((eventName) => {
-  client.on(eventName, createProxiedEventHandler(eventName));
+  (channel, username, numbOfSubs, methods, userstate) => {
+    const payload = {
+      channel,
+      username,
+      numbOfSubs,
+      methods,
+      userstate,
+    };
+    createProxiedEventHandler("submysterygift")(payload);
+  }
+);
+
+client.on("cheer", (channel, userstate, message) => {
+  const payload = {
+    channel,
+    userstate,
+    message,
+  };
+  createProxiedEventHandler("cheer")(payload);
+});
+
+client.on("hosted", (channel, username, viewers, autohost) => {
+  const payload = {
+    channel,
+    username,
+    viewers,
+    autohost,
+  };
+  createProxiedEventHandler("hosted")(payload);
+});
+
+client.on("raided", (channel, username, viewers, autohost) => {
+  const payload = {
+    channel,
+    username,
+    viewers,
+  };
+  createProxiedEventHandler("raided")(payload);
 });
 
 client.connect().catch((e) => console.log);
