@@ -12,6 +12,9 @@
     "axios": "^0.18.1",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "ngrok": "^3.2.7",
+    "primus": "^7.3.4",
+    "say": "^0.16.0",
     "tmi.js": "^1.2.1"
   },
   "devDependencies": {

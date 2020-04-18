@@ -1,0 +1,116 @@
+<html>
+  <head>
+    <script src="/lodash.get.js"></script>
+    <script src="http://localhost:42069/primus/primus.js"></script>
+
+    <style>
+      body {
+        text-align: center;
+      }
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    </style>
+
+    <style id="font-styling"></style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <template id="resub">
+      <img src="/notification-images/mind-blown.gif" />
+      <h2>
+        <##username##> just resubscribed for their
+        <##userstate.msg-param-cumulative-months##> month sub.
+      </h2>
+    </template>
+    <template id="subscription">
+      <img src="/notification-images/mind-blown.gif" />
+      <h2><##username##> just subscribed.</h2>
+    </template>
+    <template id="subgift">
+      <img src="/notification-images/mind-blown.gif" />
+      <h2><##username##> just gifted a subscription to <##recipient##>.</h2>
+    </template>
+    <template id="submysterygift">
+      <img src="/notification-images/mind-blown.gif" />
+      <h2><##username##> just gifted <##numbOfSubs##> random subscriptions.</h2>
+    </template>
+    <template id="cheer">
+      <h2><##username##> just cheered <##userstate.bits##> bits.</h2>
+    </template>
+    <template id="hosted">
+      <img src="/notification-images/bernie.gif" />
+      <h2><##username##> just hosted with <##viewers##> viewers.</h2>
+    </template>
+    <template id="raided">
+      <img src="/notification-images/bernie.gif" />
+      <h2><##username##> just raided with <##viewers##> viewers.</h2>
+    </template>
+
+    <script>
+      const rootElement = document.getElementById("root");
+      const primus = Primus.connect("http://localhost:42069", {});
+
+      primus.on("data", ({ eventName, payload }) => {
+        console.log({ eventName, payload });
+        const template = document.getElementById(eventName);
+
+        if (template) {
+          let html = template.innerHTML;
+          const templateVariables = Array.from(
+            html.matchAll(/\&lt\;##(.*?)##\&gt\;/gm)
+          );
+          console.log({ templateVariables }, template.innerHTML);
+          templateVariables.map((templateVariable) => {
+            html = html.replace(
+              `\&lt\;##${templateVariable[1]}##\&gt\;`,
+              lodashGet(payload, templateVariable[1], "UNDEFINED")
+            );
+          });
+          rootElement.innerHTML = html;
+
+          setTimeout(() => {
+            rootElement.innerHTML = "";
+          }, 15000);
+        } else {
+          console.log(`No template found for ${eventName} event.`);
+        }
+      });
+
+      function getFontStyling(fontSize) {
+        const ratio = fontSize / 144;
+        return `
+          h2 {
+            font-size: ${144 * ratio}px;
+            /* font-family: 'Luckiest Guy'; */
+            color: #fff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-shadow: 0px -${6 * ratio}px 0 #212121, 0px -${6 *
+          ratio}px 0 #212121, 0px ${6 * ratio}px 0 #212121,
+              0px ${6 * ratio}px 0 #212121, -${6 * ratio}px 0px 0 #212121, ${6 *
+          ratio}px 0px 0 #212121,
+              -${6 * ratio}px 0px 0 #212121, ${6 *
+          ratio}px 0px 0 #212121, -${6 * ratio}px -${6 * ratio}px 0 #212121,
+              ${6 * ratio}px -${6 * ratio}px 0 #212121, -${6 * ratio}px ${6 *
+          ratio}px 0 #212121, ${6 * ratio}px ${6 * ratio}px 0 #212121,
+              -${6 * ratio}px ${18 * ratio}px 0 #212121, 0px ${18 *
+          ratio}px 0 #212121, ${6 * ratio}px ${18 * ratio}px 0 #212121,
+              0 ${19 * ratio}px 1px rgba(0, 0, 0, 0.1), 0 0 ${6 *
+          ratio}px rgba(0, 0, 0, 0.1),
+              0 ${6 * ratio}px ${3 * ratio}px rgba(0, 0, 0, 0.3), 0 ${12 *
+          ratio}px ${6 * ratio}px rgba(0, 0, 0, 0.2),
+              0 ${18 * ratio}px ${18 * ratio}px rgba(0, 0, 0, 0.25), 0 ${24 *
+          ratio}px ${24 * ratio}px rgba(0, 0, 0, 0.2),
+              0 ${36 * ratio}px ${36 * ratio}px rgba(0, 0, 0, 0.15);
+          }
+        `;
+      }
+
+      document.getElementById("font-styling").innerHTML = getFontStyling(42);
+    </script>
+  </body>
+</html>
