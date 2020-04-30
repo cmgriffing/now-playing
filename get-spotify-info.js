@@ -1,18 +1,21 @@
 //SPOTIFY - Supports: Now-Playing-Bar Footer
+//RETURNS
+    // songName
+    // albumURL
+    // artist                   //uses single artists or concatonated artist array
+    // currentTime
+    // durationTime
+    // image 
+    // *album                    (if on current tracklist/album page)
+    // *playlistName
+    // *playlistTotal           (if on current tracklist/album page)
+    // *albumDate               (if on current tracklist/album page)
+    // *songNumber              (if on current tracklist/album page)
+
 scrapedSong = {};
 scrapedSong.domain = "open.spotify.com";
 scrapedSong.origin = "SPOTIFY";
-
-//RETURNS
-    // scrapedSong.songName
-    // scrapedSong.albumURL
-    // scrapedSong.artistArray
-    // scrapedSong.currentTime
-    // scrapedSong.durationTime 
-    // *scrapedSong.albumName               (if on current tracklist/album page)
-    // *scrapedSong.playlistTotal           (if on current tracklist/album page)
-    // *scrapedSong.playlistPublishDate     (if on current tracklist/album page)
-    // *scrapedSong.songNumber              (if on current tracklist/album page)
+scrapedSong.mediaType = "AUDIO"
 
 //NOW-PLAYING-BAR FOOTER BAR
 if(document.querySelector('.now-playing-bar')!==undefined){
@@ -22,7 +25,6 @@ if(document.querySelector('.now-playing-bar')!==undefined){
         var albumURL = document.querySelector('.now-playing-bar__left div.now-playing div div div span a[data-testid="nowplaying-track-link"]').href;
         scrapedSong.songName = songName;
         scrapedSong.albumURL = albumURL;
-        //console.log("gotosong",songName,albumURL);
     }
     //ARTIST NAME AND ARTIST URL
     if(document.querySelector('.now-playing-bar__left div.now-playing div.ellipsis-one-line')!==undefined){
@@ -40,12 +42,11 @@ if(document.querySelector('.now-playing-bar')!==undefined){
         //CREATE ARTIST STRING FROM ARTIST ARRAY
         var artistString = String();
         scrapedSong.artistArray.map(artist => {
-            artistString = artistString.concat(artist.artistName+",");
+            artistString = artistString.concat(artist.artistName+", ");
         });
-        artistString = artistString.substring(0, artistString.length - 1);
-        scrapedSong.artistString = artistString;
+        artistString = artistString.substring(0, artistString.length - 2);
+        scrapedSong.artist = artistString;
     }
-    
     //CURRENT SONG TIME AND DURATION
     if(document.querySelector('.playback-bar')!==undefined){
         var artistArray = Array();
@@ -53,33 +54,60 @@ if(document.querySelector('.now-playing-bar')!==undefined){
         var durationTime = document.querySelectorAll('.playback-bar__progress-time')[1].innerHTML;
         scrapedSong.currentTime = currentTime;
         scrapedSong.durationTime = durationTime;
-
+    }
+    //GET THUMBNAIL
+    if(document.querySelector('.now-playing__cover-art')!==undefined){
+        var image = document.querySelector('.now-playing__cover-art .cover-art div img.cover-art-image').src;
+        image = image.replace('4851','1e02');
+        scrapedSong.image = image;
+    }
+}
+//PLAYLIST OR ALBUM PAGE
+if(document.querySelector('.main-view-container__scroll-node-child')!==null){
+    var main = document.querySelector('.main-view-container__scroll-node-child');
+    if(main.querySelector('[title="Pause"]')!==null){
+        if(main.querySelector('.content div div span h1')!==null){
+            let album = main.querySelector('.content div div span h1').innerText;
+            scrapedSong.album = album;
+        }
+        if(main.querySelector('section div div span h1')!==null){
+            let playlist = main.querySelector('section div div span h1').innerText;
+            scrapedSong.playlistName = playlist;
+        }
+        if(main.querySelector('.main-view-container__scroll-node-child .content div img')!==null){
+            let image = main.querySelector('.content div img').src;
+            scrapedSong.image = image;
+        }
     }
 }
 //TRACKLIST PAGE ie ALBUM INFO
-if(document.querySelector('.TrackListHeader__body')!==undefined&&document.querySelector('ol.tracklist')!==undefined){
+if(document.querySelector('.TrackListHeader__body')&&document.querySelector('ol.tracklist')!==undefined){
     var trackArray = Array.from(document.querySelectorAll('ol.tracklist div.react-contextmenu-wrapper div li div.name div div.tracklist-name'));
     var trackBool = trackArray.map(track => {return track.innerHTML.includes(scrapedSong.songName)});
     if(trackBool.includes(true)){
         //SONG NUMBER
         var songNumber = trackBool.indexOf(true)+1;
         scrapedSong.songNumber = songNumber;
-
         //TRACKLIST NAME
         var trackList = document.querySelectorAll('ol.tracklist div.react-contextmenu-wrapper div li div.name div div.tracklist-name');
         if(document.querySelector('.TrackListHeader__entity-name h2 span')!==undefined){
             var albumName = document.querySelector('.TrackListHeader__entity-name h2 span').innerHTML
-            scrapedSong.albumName = albumName;
+            scrapedSong.album = albumName;
         }
-
         //TRACKLIST NUMBERS && PUBLISH DATE
         if(document.querySelector('.TrackListHeader__description-wrapper .TrackListHeader__text-silence.TrackListHeader__entity-additional-info')!==undefined){
             var albumInfo = document.querySelector('.TrackListHeader__description-wrapper .TrackListHeader__text-silence.TrackListHeader__entity-additional-info').innerHTML;
             var pubDate = albumInfo.split(' • ')[0];
             var playlistTotal = albumInfo.split(' • ')[1];
-            scrapedSong.playlistPublishDate = pubDate;
+            scrapedSong.albumDate = pubDate;
             scrapedSong.playlistTotal = playlistTotal;
         }
     } 
+    //GET THUMBNAIL
+    if(document.querySelector('.now-playing__cover-art')){
+        var image = document.querySelector('.now-playing__cover-art .cover-art div img.cover-art-image').src;
+        image = image.replace('4851','1e02');
+        scrapedSong.image = image;
+    }
 }
 scrapedSong;
