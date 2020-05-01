@@ -9,18 +9,7 @@ let song = {};
 
 app.use(express.json());
 app.use(express.static('static'));
-
 app.use(cors());
-
-app.get('/api/album', (req, res) => {
-  res.json(album);
-});
-
-app.post('/api/album', (req, res) => {
-  console.log('req.body', req.body);
-  album = req.body;
-  res.sendStatus(200);
-});
 
 app.get('/api/song', (req, res) => {
   res.json(song);
@@ -75,10 +64,10 @@ function songCommand(target, context, params) {
     return;
   }
   const message = `cmgriffing is currently listening to ${song.songName} by ${
-    album.artist
+    song.artist
   }. It is track #${song.songNumber} on ${
-    album.album
-  }. You can find the album here: ${album.url}`;
+    song.album
+  }. You can find the album here: ${song.url}`;
 
   if (context['message-type'] === 'whisper') {
     client.whisper(target, message).catch(e => console.log);
