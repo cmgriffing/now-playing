@@ -20,8 +20,8 @@ if(document.querySelectorAll('.trackView').length>0){
   });
   if(document.querySelector('h2.trackTitle')!==undefined){
     var album = document.querySelector('h2.trackTitle').innerHTML.trim();
-    scrapedSong.album = album;
-    scrapedSong.url = window.location.href;
+    scrapedSong.albumName = album;
+    scrapedSong.albumURL = window.location.href;
   }
 }
 scrapedSong;

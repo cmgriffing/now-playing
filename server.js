@@ -66,8 +66,8 @@ function songCommand(target, context, params) {
   const message = `cmgriffing is currently listening to ${song.songName} by ${
     song.artist
   }. It is track #${song.songNumber} on ${
-    song.album
-  }. You can find the album here: ${song.url}`;
+    song.albumName
+  }. You can find the album here: ${song.albumURL}`;
 
   if (context['message-type'] === 'whisper') {
     client.whisper(target, message).catch(e => console.log);
