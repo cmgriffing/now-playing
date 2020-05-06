@@ -22,26 +22,7 @@ setInterval(() => {
       const body = {
         url: tab.url,
       };
-
-      tab.title.split(' | ').map((chunk, index, chunks) => {
-        if (index === 0) {
-          if (chunk.indexOf('▶︎') > -1) {
-            chunk = chunk.substring(3);
-          }
-          body.album = chunk;
-        } else if (index === chunks.length - 1) {
-          body.artist = chunk;
-        }
-      });
-
-      postData('http://localhost:4242/api/album', body)
-        .then(result => {
-          console.log('send success');
-        })
-        .catch(error => {
-          console.log('send failure');
-        });
-
+      
       chrome.tabs.executeScript(
         tab.id,
         {
