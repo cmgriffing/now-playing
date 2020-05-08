@@ -9,7 +9,8 @@
   "browser_action": {},
   "permissions": [
     "tabs",
-    "https://*.bandcamp.com/"
+    "http://*/*",
+    "https://*/*"
   ],
   "manifest_version": 2
 }

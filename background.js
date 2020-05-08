@@ -58,19 +58,67 @@ function findTab() {
         }
 
         let foundTab = false;
+        let unknownTabs = []
+        //CHECK DOMAINS AGAINST KNOWN
         tabs.map(tab => {
           if (/bandcamp\.com/.test(tab.url) && !foundTab) {
             foundTab = true;
             //alert(`${tab.title} - ${tab.url}`);
             console.log(`${tab.title} - ${tab.url}`);
             resolve(tab);
+          } else if(!foundTab){
+            //ELSE IF GENERTAOR=BANDCAMP RESOLVE, ELSE IGNORE
+            unknownTabs.push(tab)
           }
         });
-
-        if (!foundTab) {
-          reject('Error: No bandcamp tabs were found.');
-          alert('Error: No bandcamp tabs were found.');
-        }
+        
+        if(unknownTabs.length){
+          //DESIGN UNKNOWNTABS ASYNC LOOP
+          const loop = async (tabs) => {
+            let result = null
+            let index = 0;
+            while (result == null) {
+              result = await checkBandcampDOM(tabs[index])
+              if(result !== null) {
+                return tabs[index];
+              } else {
+                index++;
+              }
+            }
+            return 'EMPTY'
+          };
+          //PROMISE CHROME EXECUTE SCRIPT
+          const checkBandcampDOM = tab =>
+          new Promise((resolve,reject) => chrome.tabs.executeScript(
+            tab.id,
+            {
+              file: 'check-bandcamp-dom.js',
+            },
+            scrapedSong => {
+              console.log(scrapedSong[0])
+              if(scrapedSong[0].bandcamp){
+                foundTab = true;
+                resolve(foundTab)
+              } else{
+                reject('Not a custom Bandcamp Link')
+              }
+            })
+          ).catch(error=>{
+            if(!foundTab){
+              alert('Error: No bandcamp tabs were found.');
+              reject('Not a custom Bandcamp Link')
+            }
+          });
+          //EXECUTE ASYNC LOOP & REJECT IF NONE
+          loop(unknownTabs).then((result)=>{
+            if(result === 'EMPTY'){
+              reject('Error: No bandcamps tabs were found.');
+              alert('Error: No bandcamps tabs were found.');
+            } else {
+              resolve(result);
+            }
+          })
+        } 
       }
     );
   });
