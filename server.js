@@ -9,18 +9,7 @@ let song = {};
 
 app.use(express.json());
 app.use(express.static('static'));
-
 app.use(cors());
-
-app.get('/api/album', (req, res) => {
-  res.json(album);
-});
-
-app.post('/api/album', (req, res) => {
-  console.log('req.body', req.body);
-  album = req.body;
-  res.sendStatus(200);
-});
 
 app.get('/api/song', (req, res) => {
   res.json(song);
@@ -70,13 +59,16 @@ client.on('disconnected', onDisconnectedHandler);
 client.connect().catch(e => console.log);
 
 function songCommand(target, context, params) {
-  if (Object.keys(song).length === 0 || song.origin.toUpperCase() === "NONE") {
-    client.say(target, 'Unable to get current song.').catch(e => console.log);
+  if (Object.keys(song).length === 0) {
+    client.say(target, 'Unable to fetch current song.').catch(e => console.log);
     return;
   }
+  const message = `cmgriffing is currently listening to ${song.songName} by ${
+    song.artist
+  }. It is track #${song.songNumber} on ${
+    song.albumName
+  }. You can find the album here: ${song.albumURL}`;
 
-  var message = song.mess;
-  
   if (context['message-type'] === 'whisper') {
     client.whisper(target, message).catch(e => console.log);
   } else {
