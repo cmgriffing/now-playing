@@ -59,7 +59,7 @@ function findTab() {
 
         let foundTab = false;
         let unknownTabs = []
-        //CHECK DOMAINS AGAINST KNOWN
+        // check domains against known
         tabs.map(tab => {
           if (/bandcamp\.com/.test(tab.url) && !foundTab) {
             foundTab = true;
@@ -67,13 +67,16 @@ function findTab() {
             console.log(`${tab.title} - ${tab.url}`);
             resolve(tab);
           } else if(!foundTab){
-            //ELSE IF GENERTAOR=BANDCAMP RESOLVE, ELSE IGNORE
             unknownTabs.push(tab)
           }
         });
-        
+
+        /* 
+        if unknown audible tabs found, run chrome.tabs.executeScript in a async loop
+        resolve oldest Bandcamp tab (by tab.id) or reject/alert if nothing found
+        */
         if(unknownTabs.length){
-          //DESIGN UNKNOWNTABS ASYNC LOOP
+          // setup unknownTabs async loop
           const loop = async (tabs) => {
             let result = null
             let index = 0;
@@ -87,7 +90,8 @@ function findTab() {
             }
             return 'EMPTY'
           };
-          //PROMISE CHROME EXECUTE SCRIPT
+
+          // promise chrome.tabs.executeScript
           const checkBandcampDOM = tab =>
           new Promise((resolve,reject) => chrome.tabs.executeScript(
             tab.id,
@@ -109,7 +113,8 @@ function findTab() {
               reject('Not a custom Bandcamp Link')
             }
           });
-          //EXECUTE ASYNC LOOP & REJECT IF NONE
+          
+          // execute async loop & resolve if tab found or reject if none
           loop(unknownTabs).then((result)=>{
             if(result === 'EMPTY'){
               reject('Error: No bandcamps tabs were found.');
