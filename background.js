@@ -86,17 +86,12 @@ function findTab() {
         
         //check promises for allowed domains and resolve tab if found or alert/reject if none
         Promise.all(promises).then((result)=>{
-          let foundTab = false;
-          result.map(value=>{
-            if(value){
-              foundTab = true;
-              resolve(value);
-            }
-          });
-          if (!foundTab) {
+          if(result.find(element => element !== false)){
+            resolve(result.find(element => element !== false))
+          } else {
             reject('Error: No bandcamp tabs were found.');
             alert('Error: No bandcamp tabs were found.');
-          } 
+          }
         });
       }
     );
