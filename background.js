@@ -59,7 +59,7 @@ function findTab() {
 
         // setup bandcamp custom domains checker
         const customDomain = tab =>{
-          return new Promise((resolve, reject) => {
+          return new Promise((resolve) => {
             chrome.tabs.executeScript(tab.id, {file: 'check-bandcamp-dom.js'},
             bcDOM => {
               console.log(bcDOM[0])
