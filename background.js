@@ -57,70 +57,47 @@ function findTab() {
           return;
         }
 
-        let foundTab = false;
-        let unknownTabs = []
-        // check domains against known
-        tabs.map(tab => {
-          if (/bandcamp\.com/.test(tab.url) && !foundTab) {
-            foundTab = true;
-            //alert(`${tab.title} - ${tab.url}`);
-            console.log(`${tab.title} - ${tab.url}`);
-            resolve(tab);
-          } else if(!foundTab){
-            unknownTabs.push(tab)
-          }
-        });
-
-        /* 
-        if unknown audible tabs found, run chrome.tabs.executeScript in a async loop
-        resolve oldest Bandcamp tab (by tab.id) or reject/alert if nothing found
-        */
-       console.log(unknownTabs)
-        if(unknownTabs.length){
-          // setup unknownTabs async loop
-          const loop = async (tabs) => {
-            let result = null
-            let index = 0;
-            while (result == null && tabs.length - 1 >= index) {
-              result = await checkBandcampDOM(tabs[index])
-              if(result !== null && result !== undefined) {
-                return tabs[index];
+        // setup bandcamp custom domains checker
+        const customDomain = tab =>{
+          return new Promise((resolve, reject) => {
+            chrome.tabs.executeScript(tab.id, {file: 'check-bandcamp-dom.js'},
+            bcDOM => {
+              console.log(bcDOM[0])
+              if(bcDOM[0].bandcamp){
+                console.log('bandcamp custom:', tab.title)
+                resolve(tab);
               } else {
-                index++;
+                resolve(false)
               }
-            }
-            return 'EMPTY'
-          };
-
-          // promise chrome.tabs.executeScript
-          const checkBandcampDOM = tab =>
-          new Promise((resolve,reject) => chrome.tabs.executeScript(
-            tab.id,
-            {
-              file: 'check-bandcamp-dom.js',
-            },
-            scrapedSong => {
-              if(scrapedSong[0].bandcamp){
-                foundTab = true;
-                resolve(foundTab)
-              } else{
-                reject('Not a custom Bandcamp Link')
-              }
-            })
-          ).catch(error=>{
-            console.log(tab.url,error)
-          });
-          
-          // execute async loop & resolve if tab found or reject if none
-          loop(unknownTabs).then((result)=>{
-            if(result === 'EMPTY' && !foundTab){
-              reject('Error: No bandcamps tabs were found.');
-              alert('Error: No bandcamps tabs were found.');
-            } else {
-              resolve(result);
-            }
+            }) 
           })
-        } 
+        }
+
+        //create promise array
+        let promises = []
+        tabs.map( tab => {
+          if (/bandcamp\.com/.test(tab.url)) {
+            promises.push(tab)
+          } else {
+            promises.push(customDomain(tab))
+            //check for bandcamp generated custom domains
+          }
+        })
+        
+        //check promises for allowed domains and resolve tab if found or alert/reject if none
+        Promise.all(promises).then((result)=>{
+          let foundTab = false;
+          result.map(value=>{
+            if(value){
+              foundTab = true;
+              resolve(value);
+            }
+          });
+          if (!foundTab) {
+            reject('Error: No bandcamp tabs were found.');
+            alert('Error: No bandcamp tabs were found.');
+          } 
+        });
       }
     );
   });
