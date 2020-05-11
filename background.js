@@ -57,22 +57,6 @@ function findTab() {
           return;
         }
 
-        // setup bandcamp custom domains checker
-        const customDomain = tab =>{
-          return new Promise((resolve) => {
-            chrome.tabs.executeScript(tab.id, {file: 'check-bandcamp-dom.js'},
-            bcDOM => {
-              console.log(bcDOM[0])
-              if(bcDOM[0].bandcamp){
-                console.log('bandcamp custom:', tab.title)
-                resolve(tab);
-              } else {
-                resolve(false)
-              }
-            }) 
-          })
-        }
-
         //create promise array
         let promises = []
         tabs.map( tab => {
@@ -96,6 +80,22 @@ function findTab() {
       }
     );
   });
+}
+
+// setup bandcamp custom domains checker
+const customDomain = tab =>{
+  return new Promise((resolve) => {
+    chrome.tabs.executeScript(tab.id, {file: 'check-bandcamp-dom.js'},
+    bcDOM => {
+      console.log(bcDOM[0])
+      if(bcDOM[0].bandcamp){
+        console.log('bandcamp custom:', tab.title)
+        resolve(tab);
+      } else {
+        resolve(false)
+      }
+    }) 
+  })
 }
 
 // from: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
