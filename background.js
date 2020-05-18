@@ -57,23 +57,45 @@ function findTab() {
           return;
         }
 
-        let foundTab = false;
-        tabs.map(tab => {
-          if (/bandcamp\.com/.test(tab.url) && !foundTab) {
-            foundTab = true;
-            //alert(`${tab.title} - ${tab.url}`);
-            console.log(`${tab.title} - ${tab.url}`);
-            resolve(tab);
+        //create promise array
+        let promises = []
+        tabs.map( tab => {
+          if (/bandcamp\.com/.test(tab.url)) {
+            promises.push(tab)
+          } else {
+            promises.push(customDomain(tab))
+            //check for bandcamp generated custom domains
+          }
+        })
+        
+        //check promises for allowed domains and resolve tab if found or alert/reject if none
+        Promise.all(promises).then((result)=>{
+          if(result.find(element => element !== false)){
+            resolve(result.find(element => element !== false))
+          } else {
+            reject('Error: No bandcamp tabs were found.');
+            alert('Error: No bandcamp tabs were found.');
           }
         });
-
-        if (!foundTab) {
-          reject('Error: No bandcamp tabs were found.');
-          alert('Error: No bandcamp tabs were found.');
-        }
       }
     );
   });
+}
+
+// setup bandcamp custom domains checker
+const customDomain = tab =>{
+  return new Promise((resolve) => {
+    chrome.tabs.executeScript(tab.id, {file: 'check-bandcamp-dom.js'},
+    bcDOM => {
+      console.log(bcDOM[0])
+      if(bcDOM[0].bandcamp){
+        console.log('bandcamp custom:', tab.title)
+        resolve(tab);
+      } else {
+        resolve(false)
+      }
+    }) 
+  })
 }
 
 // from: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
