@@ -7,12 +7,14 @@ scrapedSong = {
   albumName: '',
   albumURL: ''
 };
+
+// Bandcamp singles && album pages
+// example album: https://lorn.bandcamp.com/album/the-maze-to-nowhere
+// example single: https://lorn.bandcamp.com/track/acid-rain
 var trackView = document.querySelectorAll('.trackView');
 if(trackView) {
   var trackRowViews = document.querySelectorAll('.track_row_view');
   if(trackRowViews.length > 0) {
-    // album page 
-    // example: https://lorn.bandcamp.com/album/the-maze-to-nowhere
     Array.from(trackRowViews).map(row => {
       if (row.querySelector('.playing')) {
         const songName = row.querySelector('.title a span').textContent;
@@ -40,8 +42,6 @@ if(trackView) {
       scrapedSong.albumURL = window.location.href;
     }
   } else {
-    // single page (songNumber not included && albumName/albumURL may not be included)
-    // example: https://lorn.bandcamp.com/track/acid-rain
     var trackTitle = document.querySelector('h2.trackTitle');
     if(trackTitle){
       const songName = trackTitle.textContent.trim();
@@ -65,7 +65,7 @@ if(trackView) {
   }
 } 
 
-// browse by tags || fan pages || collections (songURL/artistURL not included)
+// Bandcamp browse by tags || fan pages || collections (songURL/artistURL not included)
 // examples: https://bandcamp.com/tag/electronic || https://bandcamp.com/cmgriffing
 var playArray = document.querySelectorAll('.playing');
 if(playArray) {
@@ -97,7 +97,7 @@ if(playArray) {
   })
 }
 
-// featured page
+// Bandcamp featured page
 // examples: https://daily.bandcamp.com/features 
 var actualPlayer = document.querySelector('mplayer.playing');
 if (actualPlayer) {
@@ -117,7 +117,7 @@ if (actualPlayer) {
   scrapedSong.songURL = songURL;
 }
 
-// bandcamp weekly player
+// Bandcamp  weekly player
 // https://bandcamp.com/?show=47
 var bandcampPlayer = document.querySelector('.bcweekly-info .row .bcweekly-info-inner .bcweekly-tracks .bcweekly-current');
 if(bandcampPlayer) {
@@ -135,7 +135,7 @@ if(bandcampPlayer) {
 
 }
 
-// hompage discover section
+// Bandcamp hompage discover section
 // https://bandcamp.com/
 var discover = document.querySelector('.discover-item .playing');
 if(discover) {
