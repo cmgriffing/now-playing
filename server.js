@@ -89,7 +89,9 @@ function didyouknowCommand(target, context, params) {
   let response;
 
   do {
-    response = didyouknowResponses[Math.floor(Math.random() * didyouknowResponses.length)];
+    response = didyouknowResponses[
+      Math.floor(Math.random() * didyouknowResponses.length)
+    ];
   } while (recentDidYouKnows.indexOf(response) > -1);
 
   if (recentDidYouKnows.length >= 3) {
