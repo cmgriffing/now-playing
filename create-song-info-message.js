@@ -1,4 +1,4 @@
-module.exports = function createRespondMessage(song) {
+module.exports = function createSongInfoMessage(song) {
 
   let message = ``;
 
