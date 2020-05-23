@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 const tmi = require('tmi.js');
 const axios = require('axios');
-const createRespondMessage = require('./create-respond-message')
+const createSongInfoMessage = require('./create-song-info-message')
 
 let album = {};
 let song = {};
@@ -64,7 +64,7 @@ function songCommand(target, context, params) {
     client.say(target, 'Unable to fetch current song.').catch(e => console.log);
     return;
   }
-  const message = createRespondMessage(song);
+  const message = createSongInfoMessage(song);
 
   if (context['message-type'] === 'whisper') {
     client.whisper(target, message).catch(e => console.log);
