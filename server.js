@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const tmi = require('tmi.js');
 const axios = require('axios');
+const createRespondMessage = require('./create-respond-message')
 
 let album = {};
 let song = {};
@@ -63,20 +64,7 @@ function songCommand(target, context, params) {
     client.say(target, 'Unable to fetch current song.').catch(e => console.log);
     return;
   }
-  let message;
-  if (song.songNumber) {
-    message = `cmgriffing is currently listening to ${song.songName} by ${
-      song.artist
-    }. It is track #${song.songNumber} on ${
-      song.albumName
-    }. You can find the album here: ${song.albumURL}`;
-  } else {
-    message = `cmgriffing is currently listening to ${song.songName} by ${
-      song.artist
-    }. It is a track from the album ${
-      song.albumName
-    }. You can find the album here: ${song.albumURL}`;
-  }
+  const message = createRespondMessage(song);
 
   if (context['message-type'] === 'whisper') {
     client.whisper(target, message).catch(e => console.log);
