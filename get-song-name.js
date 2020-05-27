@@ -22,7 +22,6 @@ if(trackView) {
         const songNumber = row
           .querySelector('.track_number')
           .textContent.replace('.', '');
-
         scrapedSong.songName = songName;
         scrapedSong.songURL = songURL
         scrapedSong.songNumber = songNumber;
@@ -156,6 +155,7 @@ if(discover) {
     scrapedSong.songName = songName;
     scrapedSong.currentTime = currentTime;
     scrapedSong.durationTime = durationTime;
+
   }
 }
 scrapedSong;
