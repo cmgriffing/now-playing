@@ -86,9 +86,10 @@ function findTab() {
 const customDomain = tab =>{
   return new Promise((resolve) => {
     chrome.tabs.executeScript(tab.id, {file: 'check-bandcamp-dom.js'},
-    bcDOM => {
-      console.log(bcDOM[0])
-      if(bcDOM[0].bandcamp){
+    customDomainMetaData => {
+      console.log(customDomainMetaData[0])
+      let isBandcamp = customDomainMetaData[0].isBandcamp;
+      if(isBandcamp){
         console.log('bandcamp custom:', tab.title)
         resolve(tab);
       } else {
