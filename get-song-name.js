@@ -105,6 +105,7 @@ function getSongInfo(){
         if(infoLink) {
           const albumURL = infoLink.href;
           scrapedSong.albumURL = albumURL;
+          scrapedSong.artistURL = new URL(infoLink.href).hostname;
         }
         const progressTitle = carouselPlayer.querySelector('.progress-transport .title');
         if(progressTitle) {
