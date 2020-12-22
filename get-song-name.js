@@ -139,10 +139,10 @@ function getSongInfo(){
 
   // Bandcamp  weekly player
   // https://bandcamp.com/?show=47
-  const bandcampWeekly = document.querySelector('.bcweekly-info-inner');
-    if(bandcampWeekly) {
+  const bandcampPlayer = document.querySelector('.bcweekly-info .row .bcweekly-info-inner .bcweekly-tracks .bcweekly-current');
+    if(bandcampPlayer) {
+      const bandcampWeekly = document.querySelector('.bcweekly-info-inner');
       const playlistName = bandcampWeekly.querySelector('.bcweekly-title').textContent;
-      const bandcampPlayer = document.querySelector('.bcweekly-info .row .bcweekly-info-inner .bcweekly-tracks .bcweekly-current');
       const artist = bandcampPlayer.querySelector('p.track-artist a').textContent;
       const artistURL = bandcampPlayer.querySelector('p.track-artist a').href;
       const trackDetails = bandcampPlayer.querySelector('.track-details');
