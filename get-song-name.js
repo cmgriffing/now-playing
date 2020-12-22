@@ -139,21 +139,24 @@ function getSongInfo(){
 
   // Bandcamp  weekly player
   // https://bandcamp.com/?show=47
-  const bandcampPlayer = document.querySelector('.bcweekly-info .row .bcweekly-info-inner .bcweekly-tracks .bcweekly-current');
-  if(bandcampPlayer) {
-    const artist = bandcampPlayer.querySelector('p.track-artist a').textContent;
-    const artistURL = bandcampPlayer.querySelector('p.track-artist a').href;
-    const trackDetails = bandcampPlayer.querySelector('.track-details');
-    const albumURL = trackDetails.querySelector('a').href;
-    const songName = trackDetails.querySelector('a span.track-title').textContent;
-    const album = trackDetails.querySelector('a span.track-album').textContent;
-    scrapedSong.artist = artist;
-    scrapedSong.artistURL = artistURL;
-    scrapedSong.albumName = album;
-    scrapedSong.albumURL = albumURL;
-    scrapedSong.songName = songName;
-
-  }
+  const bandcampWeekly = document.querySelector('.bcweekly-info-inner');
+    if(bandcampWeekly) {
+      const playlistName = bandcampWeekly.querySelector('.bcweekly-title').textContent;
+      const bandcampPlayer = document.querySelector('.bcweekly-info .row .bcweekly-info-inner .bcweekly-tracks .bcweekly-current');
+      const artist = bandcampPlayer.querySelector('p.track-artist a').textContent;
+      const artistURL = bandcampPlayer.querySelector('p.track-artist a').href;
+      const trackDetails = bandcampPlayer.querySelector('.track-details');
+      const albumURL = trackDetails.querySelector('a').href;
+      const songName = trackDetails.querySelector('a span.track-title').textContent;
+      const album = trackDetails.querySelector('a span.track-album').textContent;
+      scrapedSong.artist = artist;
+      scrapedSong.artistURL = artistURL;
+      scrapedSong.albumName = album;
+      scrapedSong.albumURL = albumURL;
+      scrapedSong.songName = songName;
+      scrapedSong.playlistName = playlistName;
+      scrapedSong.playlistURL = window.location.href;
+    }
 
   // Bandcamp hompage discover section
   // https://bandcamp.com/
