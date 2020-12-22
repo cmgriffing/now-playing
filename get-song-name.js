@@ -165,8 +165,8 @@ function getSongInfo(){
   if(discoverDetail) {
     const isPlaying = discoverDetail.querySelector('.playing');
     if(isPlaying){
-      const albumName = discoverDetail.querySelector('.detail-album').textContent;
-      const albumURL = discoverDetail.querySelector('.detail-album').href;
+      const albumName = discoverDetail.querySelector('.detail-album a').textContent;
+      const albumURL = discoverDetail.querySelector('.detail-album a').href;
       const artist = discoverDetail.querySelector('.detail-artist a').textContent;
       const artistURL = discoverDetail.querySelector('.detail-artist a').href;
       scrapedSong.albumName = albumName;
