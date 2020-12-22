@@ -160,26 +160,27 @@ function getSongInfo(){
 
   // Bandcamp hompage discover section
   // https://bandcamp.com/
-  const discover = document.querySelector('.discover-item .playing');
-  if(discover) {
-    const discoverArray = discover.parentNode;
-    const albumName = discoverArray.querySelector('.item-title').textContent;
-    const albumURL = discoverArray.querySelector('.item-title').href;
-    const artist = discoverArray.querySelector('.item-artist').textContent;
-    const artistURL = discoverArray.querySelector('.item-title').href;
-    scrapedSong.albumName = albumName;
-    scrapedSong.albumURL = albumURL;
-    scrapedSong.artist = artist;
-    scrapedSong.artistURL = artistURL
-    const iPlayer = document.querySelector('.inline_player');
-    if(iPlayer){
-      const songName = iPlayer.querySelector('.title').textContent;
-      const currentTime = iPlayer.querySelector('.time_elapsed').textContent;
-      const durationTime = iPlayer.querySelector('.time_total').textContent;
-      scrapedSong.songName = songName;
-      scrapedSong.currentTime = currentTime;
-      scrapedSong.durationTime = durationTime;
-
+  const discoverDetail = document.querySelector('.discover-detail-inner');
+  if(discoverDetail) {
+    const isPlaying = discoverDetail.querySelector('.playing');
+    if(isPlaying){
+      const albumName = discoverDetail.querySelector('.detail-album').textContent;
+      const albumURL = discoverDetail.querySelector('.detail-album').href;
+      const artist = discoverDetail.querySelector('.detail-artist a').textContent;
+      const artistURL = discoverDetail.querySelector('.detail-artist a').href;
+      scrapedSong.albumName = albumName;
+      scrapedSong.albumURL = albumURL;
+      scrapedSong.artist = artist;
+      scrapedSong.artistURL = artistURL
+      const iPlayer = document.querySelector('.inline_player');
+      if(iPlayer){
+        const songName = iPlayer.querySelector('.title').textContent;
+        const currentTime = iPlayer.querySelector('.time_elapsed').textContent;
+        const durationTime = iPlayer.querySelector('.time_total').textContent;
+        scrapedSong.songName = songName;
+        scrapedSong.currentTime = currentTime;
+        scrapedSong.durationTime = durationTime;
+      }
     }
   }
   return scrapedSong;
