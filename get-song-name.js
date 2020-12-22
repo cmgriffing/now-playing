@@ -41,6 +41,13 @@ function getSongInfo(){
         scrapedSong.albumName = album;
         scrapedSong.albumURL = window.location.href;
       }
+      const songTime = document.querySelector('.time');
+      if(songTime){
+        const currentTime = songTime.querySelector('.time_elapsed').textContent;
+        const durationTime = songTime.querySelector('.time_total').textContent;
+        scrapedSong.currentTime = currentTime;
+        scrapedSong.durationTime = durationTime;
+      }
     } else {
       const trackTitle = document.querySelector('h2.trackTitle');
       if(trackTitle){
@@ -80,6 +87,13 @@ function getSongInfo(){
           scrapedSong.artistURL = artistURL; 
         }
       }
+      const songTime = document.querySelector('.time');
+      if(songTime){
+        const currentTime = songTime.querySelector('.time_elapsed').textContent;
+        const durationTime = songTime.querySelector('.time_total').textContent;
+        scrapedSong.currentTime = currentTime;
+        scrapedSong.durationTime = durationTime;
+      }
     } 
   } else {
     console.log("nothing");
@@ -107,6 +121,13 @@ function getSongInfo(){
           scrapedSong.albumURL = albumURL;
           scrapedSong.artistURL = new URL(infoLink.href).hostname;
         }
+        const songTime = carouselPlayer.querySelector('.pos-dur').children;
+        if(songTime){
+          const currentTime = songTime[0].textContent;
+          const durationTime = songTime[1].textContent;
+          scrapedSong.currentTime = currentTime;
+          scrapedSong.durationTime = durationTime;
+        }
         const progressTitle = carouselPlayer.querySelector('.progress-transport .title');
         if(progressTitle) {
           const songName = progressTitle.querySelector('span[data-bind="text: currentTrack().trackTitle"]').textContent;
@@ -128,6 +149,9 @@ function getSongInfo(){
     const artist = actualPlayer.querySelector('a.mpartist').textContent;
     const songName = actualPlayer.querySelector('.mptracktitle').textContent;
     const songNumber = actualPlayer.querySelector('.mptracknumber').textContent;
+    const songTime = actualPlayer.querySelector('div.mptime').children;
+    const currentTime = songTime[0].textContent;
+    const durationTime = songTime[2].textContent;
     const songURL = artistURL+"track/"+songName.replace(' ','-')
     scrapedSong.artistURL = artistURL;
     scrapedSong.albumURL = albumURL;
@@ -136,6 +160,8 @@ function getSongInfo(){
     scrapedSong.songName = songName;
     scrapedSong.songNumber = songNumber;
     scrapedSong.songURL = songURL;
+    scrapedSong.currentTime = currentTime;
+    scrapedSong.durationTime = durationTime;
   }
 
   // Bandcamp  weekly player
