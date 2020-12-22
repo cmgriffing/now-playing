@@ -48,19 +48,37 @@ function getSongInfo(){
         scrapedSong.songName = songName;
         scrapedSong.songURL = window.location.href;
       }
-      const albumLink = document.querySelector('[itemprop=inAlbum] a');
-      if (albumLink) {
-        const albumName = albumLink.textContent;
-        const albumURL = albumLink.href;
+      const albumTitle = document.querySelector('h3.albumTitle');
+      if(albumTitle){
+        const albumSpan = albumTitle.querySelector('span.fromAlbum');
+        if(albumSpan){
+        const albumName = albumSpan.textContent.trim();
+        const albumURL = albumSpan.parentNode.href
         scrapedSong.albumName = albumName;
         scrapedSong.albumURL = albumURL;
-      }
-      const artistLink = document.querySelector('[itemprop=byArtist] a');
-      if (artistLink) {
-        const artist = artistLink.textContent;
-        const artistURL = artistLink.href;
-        scrapedSong.artist = artist; 
-        scrapedSong.artistURL = artistURL; 
+        }
+        const artistSpan = albumTitle.children[1];
+        if (artistSpan){
+          const artist = artistSpan.textContent.trim();
+          const artistURL = artistSpan.href;
+          scrapedSong.artist = artist; 
+          scrapedSong.artistURL = artistURL; 
+        }
+      } else {
+        const albumLink = document.querySelector('[itemprop=inAlbum] a');
+        if (albumLink) {
+          const albumName = albumLink.textContent;
+          const albumURL = albumLink.href;
+          scrapedSong.albumName = albumName;
+          scrapedSong.albumURL = albumURL;
+        }
+        const artistLink = document.querySelector('[itemprop=byArtist] a');
+        if (artistLink) {
+          const artist = artistLink.textContent;
+          const artistURL = artistLink.href;
+          scrapedSong.artist = artist; 
+          scrapedSong.artistURL = artistURL; 
+        }
       }
     } 
   } else {
