@@ -1,4 +1,4 @@
-# Now Playing 1.3.0, TwitchBot, & Chrome Extension #
+# Now Playing 1.2.0, TwitchBot, & Chrome Extension #
 
 ### Get audio/song data from Chrome and return it to TwitchBot ###
 
@@ -117,4 +117,19 @@ req.body {
     songNumber: '',
     songURL: ''
 }
+```
+
+## Changlog ##
+```
+1.2.0
+    Extension:
+        Add Bandcamp Single/Track Page Support
+        Add Bandcamp Tags/Fan Page/Collection Page Support
+        Add Bandcamp Featured Page Support
+        Add Bandcamp Weekly Show Page Support
+        Add Bandcamp Homepage Support
+
+1.1.1
+    Extension:
+        Get song info from Bandcamp sites with a Custom Domain
 ```
