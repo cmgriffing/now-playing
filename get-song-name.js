@@ -16,6 +16,7 @@ function getSongInfo(){
   if(trackView) {
     const trackRowViews = document.querySelectorAll('.track_row_view');
     if(trackRowViews.length > 0) {
+      // Bandcamp album page
       Array.from(trackRowViews).map(row => {
         if (row.querySelector('.playing')) {
           const songName = row.querySelector('.title a span').textContent;
@@ -49,6 +50,7 @@ function getSongInfo(){
         scrapedSong.durationTime = durationTime;
       }
     } else {
+      // Bandcamp single/track page
       const trackTitle = document.querySelector('h2.trackTitle');
       if(trackTitle){
         const songName = trackTitle.textContent.trim();
@@ -185,7 +187,7 @@ function getSongInfo(){
       scrapedSong.playlistURL = window.location.href;
     }
 
-  // Bandcamp hompage discover section
+  // Bandcamp homepage discover section
   // https://bandcamp.com/
   const discoverDetail = document.querySelector('.discover-detail-inner');
   if(discoverDetail) {
