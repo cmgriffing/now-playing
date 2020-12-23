@@ -2,14 +2,15 @@
 
 ### Get audio/song data from Chromium based browsers and return it to TwitchBot ###
 
-Now Playing allows you to request song info from Bandcamp playing on chromium based browsers via '!song' in IRC via a Chromium Extension and local server.
+Now Playing allows you to request currently playing song info from Bandcamp on Chromium based browsers by sending '!song' in an IRC message.
 
 ## Supports ##
+CHROMIUM BROWSERS
 TWITCH IRC 
 BANDCAMP - Album Pages, Featured Pages, Carousel Player, Discover, Radio Pages & Album pages on Custom Domains.
 
 ## Installation ##
-In chromium browser, go to chrome://extensions, enable Developer Mode, select "Load Unpacked", and select 'now-playing' folder. Once installed Click on extension bar icon, go to 'Options' and click 'Save'. Once you've set up your Twitch Bot (below), click the extension bar icon and turn ON.
+Clone (or download and unzip) Now Playing. In chromium browser, go to extensions page (ex. chrome://extensions), enable Developer Mode, select "Load Unpacked", and select 'now-playing' folder. Once installed Click on extension bar icon, go to 'Options' and click 'Save'. Once you've set up your Twitch Bot (below), click the extension bar icon and turn ON.
  
 ## Setup Twitch Bot ##
 To run the bot locally, copy the contents of the sample config inside server.js and save it as `config.json` in the root directory, then run `node server.js` (requires express, cors, tmi, and axios).
