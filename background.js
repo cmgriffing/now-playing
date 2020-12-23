@@ -26,7 +26,7 @@ setInterval(() => {
       chrome.tabs.executeScript(
         tab.id,
         {
-          file: 'get-song-name.js',
+          file: 'get-bandcamp-info.js',
         },
         scrapedSong => {
           console.log('scrapedSong', scrapedSong);
