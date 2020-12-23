@@ -73,7 +73,15 @@ function getSongInfo(){
           scrapedSong.artist = artist; 
           scrapedSong.artistURL = artistURL; 
         }
+        const songTime = document.querySelector('.time');
+        if(songTime){
+          const currentTime = songTime.querySelector('.time_elapsed').textContent;
+          const durationTime = songTime.querySelector('.time_total').textContent;
+          scrapedSong.currentTime = currentTime;
+          scrapedSong.durationTime = durationTime;
+        }
       } else {
+        // potentially depreciated when albumTitle was implemented
         const albumLink = document.querySelector('[itemprop=inAlbum] a');
         if (albumLink) {
           const albumName = albumLink.textContent;
@@ -88,13 +96,6 @@ function getSongInfo(){
           scrapedSong.artist = artist; 
           scrapedSong.artistURL = artistURL; 
         }
-      }
-      const songTime = document.querySelector('.time');
-      if(songTime){
-        const currentTime = songTime.querySelector('.time_elapsed').textContent;
-        const durationTime = songTime.querySelector('.time_total').textContent;
-        scrapedSong.currentTime = currentTime;
-        scrapedSong.durationTime = durationTime;
       }
     } 
   } else {
@@ -189,26 +190,29 @@ function getSongInfo(){
 
   // Bandcamp homepage discover section
   // https://bandcamp.com/
-  const discoverDetail = document.querySelector('.discover-detail-inner');
-  if(discoverDetail) {
-    const isPlaying = discoverDetail.querySelector('.playing');
-    if(isPlaying){
-      const albumName = discoverDetail.querySelector('.detail-album a').textContent;
-      const albumURL = discoverDetail.querySelector('.detail-album a').href;
-      const artist = discoverDetail.querySelector('.detail-artist a').textContent;
-      const artistURL = discoverDetail.querySelector('.detail-artist a').href;
-      scrapedSong.albumName = albumName;
-      scrapedSong.albumURL = albumURL;
-      scrapedSong.artist = artist;
-      scrapedSong.artistURL = artistURL
-      const iPlayer = document.querySelector('.inline_player');
-      if(iPlayer){
-        const songName = iPlayer.querySelector('.title').textContent;
-        const currentTime = iPlayer.querySelector('.time_elapsed').textContent;
-        const durationTime = iPlayer.querySelector('.time_total').textContent;
-        scrapedSong.songName = songName;
-        scrapedSong.currentTime = currentTime;
-        scrapedSong.durationTime = durationTime;
+  const discover = document.querySelector('.discover-item .playing');
+  if(discover) {
+    const discoverDetail = document.querySelector('.discover-detail-inner');
+    if(discoverDetail) {
+      const isPlaying = discoverDetail.querySelector('.playbutton .playing');
+      if(isPlaying){
+        const albumName = discoverDetail.querySelector('.detail-album a').textContent;
+        const albumURL = discoverDetail.querySelector('.detail-album a').href;
+        const artist = discoverDetail.querySelector('.detail-artist a').textContent;
+        const artistURL = discoverDetail.querySelector('.detail-artist a').href;
+        scrapedSong.albumName = albumName;
+        scrapedSong.albumURL = albumURL;
+        scrapedSong.artist = artist;
+        scrapedSong.artistURL = artistURL
+        const iPlayer = document.querySelector('.inline_player');
+        if(iPlayer){
+          const songName = iPlayer.querySelector('.title').textContent;
+          const currentTime = iPlayer.querySelector('.time_elapsed').textContent;
+          const durationTime = iPlayer.querySelector('.time_total').textContent;
+          scrapedSong.songName = songName;
+          scrapedSong.currentTime = currentTime;
+          scrapedSong.durationTime = durationTime;
+        }
       }
     }
   }
