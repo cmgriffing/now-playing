@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const tmi = require('tmi.js');
 const axios = require('axios');
+const createSongInfoMessage = require('./create-song-info-message')
 
 let album = {};
 let song = {};
@@ -63,11 +64,8 @@ function songCommand(target, context, params) {
     client.say(target, 'Unable to fetch current song.').catch(e => console.log);
     return;
   }
-  const message = `cmgriffing is currently listening to ${song.songName} by ${
-    song.artist
-  }. It is track #${song.songNumber} on ${
-    song.albumName
-  }. You can find the album here: ${song.albumURL}`;
+
+  const message = createSongInfoMessage(song);
 
   if (context['message-type'] === 'whisper') {
     client.whisper(target, message).catch(e => console.log);
@@ -90,12 +88,12 @@ const didyouknowResponses = [
 
 function didyouknowCommand(target, context, params) {
   let response;
-  while (recentDidYouKnows.indexOf(response) > -1) {
-    response =
-      didyouknowResponses[
-        Math.floor(Math.random() * didyouknowResponses.length)
-      ];
-  }
+
+  do {
+    response = didyouknowResponses[
+      Math.floor(Math.random() * didyouknowResponses.length)
+    ];
+  } while (recentDidYouKnows.indexOf(response) > -1);
 
   if (recentDidYouKnows.length >= 3) {
     recentDidYouKnows.shift();
@@ -134,6 +132,8 @@ function weatherCommand(target, context) {
 
 // Called every time a message comes in:
 function onMessageHandler(target, context, msg, self) {
+  
+  
   if (self) {
     // Ignore messages sent by the bot itself
     return;
