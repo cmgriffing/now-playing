@@ -29,7 +29,7 @@ BANDCAMP
 
 ## Example Data ##
 #### Album Page (example page - https://lorn.bandcamp.com/album/the-maze-to-nowhere): ####
-```json
+```
 req.body {
     albumName: 'GUARDIAN',
     albumURL: 'https://lorn.bandcamp.com/album/guardian',
@@ -44,7 +44,7 @@ req.body {
 ```
 
 #### Single Page (example page - https://lorn.bandcamp.com/track/acid-rain): ####
-```json
+```
 req.body {
     albumName: 'GUARDIAN',
     albumURL: 'https://lorn.bandcamp.com/album/guardian',
@@ -58,7 +58,7 @@ req.body {
 ```
 
 #### Tag Page (example page - https://bandcamp.com/tag/chillwave): ####
-```json
+```
 req.body {
     albumName: 'Vacuum Noises (or synthgaze to make you cry and wither)',
     albumURL: 'https://astrophysicsbrazil.bandcamp.com/album/vacuum-noises-or-synthgaze-to-make-you-cry-and-wither?from=hp',
@@ -73,7 +73,7 @@ req.body {
 ```
 
 #### Features Pages (example page  - https://daily.bandcamp.com/features/chamberlain-red-weather-interview): ####
-```json
+```
 req.body {
     albumName: 'Red Weather',
     albumURL: 'https://chamberlain.bandcamp.com/album/red-weather',
@@ -88,7 +88,7 @@ req.body {
 ```
 
 #### Bandcamp Weekly Show Page (example page - https://bandcamp.com/?show=47): ####
-```json
+```
 req.body {
     albumName: 'Leisure Suit Larry: Reloaded',
     albumURL: 'https://austinwintory.bandcamp.com/album/leisure-suit-larry-reloaded?from=hpbcw',
@@ -103,7 +103,7 @@ req.body {
 ```
 
 #### Bandcamp Homepage (example page - https://bandcamp.com/): ####
-```json
+```
 req.body {
     albumName: 'Between Da Protests [EXTENDED EDITION]',
     albumURL: 'https://krsone.bandcamp.com/album/between-da-protests-extended-edition?from=discover-top',
