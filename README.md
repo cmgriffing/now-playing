@@ -13,7 +13,7 @@ In chromium browser, go to chrome://extensions, enable Developer Mode, select "L
 ## Setup Twitch Bot ##
 To run the bot locally, copy the contents of the sample config inside server.js and save it as `config.json` in the root directory, then run `node server.js` (requires express, cors, tmi, and axios).
 
-## Resonse Types ##
+## Response Data ##
 ```
 BANDCAMP
     songName
