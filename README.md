@@ -14,6 +14,7 @@ In chromium browser, go to chrome://extensions, enable Developer Mode, select "L
 To run the bot locally, copy the contents of the sample config inside server.js and save it as `config.json` in the root directory, then run `node server.js` (requires express, cors, tmi, and axios).
 
 ## Resonse Types ##
+```
 BANDCAMP
     songName
     *songURL
@@ -26,6 +27,7 @@ BANDCAMP
     *playlistURL
 
     *Depends on page
+```
 
 ## Example Data ##
 #### Album Page (example page - https://lorn.bandcamp.com/album/the-maze-to-nowhere): ####
