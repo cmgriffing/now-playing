@@ -26,7 +26,7 @@ BANDCAMP
     *playlistName
     *playlistURL
 
-    *Depends on page
+*Depends on page
 ```
 
 ## Example Data ##
