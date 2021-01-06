@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                font-family: sans-serif;
+                background: rgb(246,244,184);
+                background: linear-gradient(176deg, rgba(246,244,184,1) 0%, rgba(242,219,115,1) 0%, rgba(227,2,71,1) 51%, rgba(72,6,148,1) 84%);
+                padding:20px 10%;
+            }
+
+            button {
+                outline: none;
+                box-shadow:1px 2px #0d0d0d;
+                padding:10px 18px;
+                background:rgba(255,255,255,.8);
+                
+                border-color: unset;
+                border-style: unset;
+                min-width: 150px;
+                color:black;
+                font-weight:700;
+                text-transform: uppercase;
+            }
+
+            label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                margin-top: 0.5rem;
+            }
+
+            div.setting {
+                margin: 1rem;
+            }
+
+            input[text], textarea {
+                width: 100%;
+           
+            }
+            textarea {
+                height: 100px;
+            }
+            #snippets span {
+                display:block;
+                padding:0 0 20px 0;
+            }
+            div.snippet {
+                margin-top: 1rem;
+                padding: 1rem;
+                background-color: rgba(255,255,255,.6);
+                border:#fff 2px solid;
+                box-shadow:1px 1px #0e0e0e;
+            }
+            h1 {
+                color:#fff;
+                font-size:3em;
+            }
+            h3 {
+                display:inline;
+            }
+            .setting span {
+                font-weight:700;
+                font-size:1.5em;
+                color:#ffffff;
+            }
+         
+        </style>
+    </head>
+    <body>
+        <h1>Now Playing</h1>
+
+        <div class=setting>
+            <span for=server>Server:</span>
+            <input type=text id=server value=localhost:4242>
+        </div>
+        <p>Customize the information sent to your bot. Wrapping sentences containing variables in *  only displays if variable is not empty. (Example: *If ${artist} variable is empty you will not see this line.*). </p>
+        <div id=snippets>
+        </div>
+
+
+        <div class=setting>
+            <button id=save>Save</button>
+        </div>
+    </body>
+    <script src=options.js></script>
+</html>

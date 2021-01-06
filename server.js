@@ -64,6 +64,7 @@ function songCommand(target, context, params) {
     client.say(target, 'Unable to fetch current song.').catch(e => console.log);
     return;
   }
+
   const message = createSongInfoMessage(song);
 
   if (context['message-type'] === 'whisper') {

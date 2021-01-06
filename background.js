@@ -22,19 +22,33 @@ setInterval(() => {
       const body = {
         url: tab.url,
       };
-      
-      chrome.tabs.executeScript(
-        tab.id,
-        {
-          file: 'get-song-name.js',
-        },
-        scrapedSong => {
-          console.log('scrapedSong', scrapedSong);
-          if (scrapedSong[0]) {
-            postData('http://localhost:4242/api/song', scrapedSong[0]);
+      if(/open\.spotify\.com/.test(tab.url)){
+        chrome.tabs.executeScript(
+          tab.id,
+          {
+            file: 'get-spotify-info.js',
+          },
+          scrapedSong => {
+            console.log('scrapedSong', scrapedSong);
+            if (scrapedSong[0]) {
+              postData('http://localhost:4242/api/song', scrapedSong[0]);
+            }
           }
-        }
-      );
+        );
+      } else {
+        chrome.tabs.executeScript(
+          tab.id,
+          {
+            file: 'get-bandcamp-info.js',
+          },
+          scrapedSong => {
+            console.log('scrapedSong', scrapedSong);
+            if (scrapedSong[0]) {
+              postData('http://localhost:4242/api/song', scrapedSong[0]);
+            }
+          }
+        );
+      }
     })
     .catch(error => {
       console.log('something has gone terribly wrong', error);
@@ -60,7 +74,9 @@ function findTab() {
         //create promise array
         let promises = []
         tabs.map( tab => {
-          if (/bandcamp\.com/.test(tab.url)) {
+          if(/open\.spotify\.com/.test(tab.url)){
+            promises.push(tab)
+          }else if (/bandcamp\.com/.test(tab.url)) {
             promises.push(tab)
           } else {
             promises.push(customDomain(tab))

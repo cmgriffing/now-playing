@@ -24,5 +24,5 @@ COPY --from=builder /tmp/builder/node_modules node_modules
 COPY server.js .
 COPY config.json .
 
-EXPOSE 4242
+EXPOSE 8293
 ENTRYPOINT ["node", "server.js"]
