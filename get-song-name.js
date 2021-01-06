@@ -24,22 +24,10 @@ if (document.querySelectorAll('.trackView').length > 0) {
     scrapedSong.songName = nameElement.innerHTML.trim();
   }
 
-
-  Array.from(document.querySelectorAll('#name-section h3')).map((row) => {
-    let artistName;
-    if (row.children[1]) {
-      artistName = row.children[1].querySelector('span a').innerHTML;
-    }
-
-    if (!artistName && row.children[0]) {
-      let artistElement = row.children[0].querySelector('span a');
-      if (artistElement) {
-        artistName = artistElement.innerHTML;
-      }
-    }
-
-    if (artistName) {
-      scrapedSong.artistName = artistName;
+  Array.from(document.querySelectorAll('#name-section h3')).map(row => {
+    const artistNameLink = row.querySelector('span a');
+    if (artistNameLink) {
+      scrapedSong.artistName = artistNameLink.textContent;
     }
   });
 
