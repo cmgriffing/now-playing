@@ -1,6 +1,10 @@
 scrapedSong = {};
 
+// Bandcamp singles && album pages
+// example album: https://lorn.bandcamp.com/album/the-maze-to-nowhere
+// example single: https://lorn.bandcamp.com/track/acid-rain
 if (document.querySelectorAll('.trackView').length > 0) {
+  // Bandcamp album page
   Array.from(document.querySelectorAll('.track_row_view')).map((row) => {
     if (row.querySelector('.playing')) {
       const songName = row.querySelector('.title a span').innerHTML;
@@ -13,6 +17,7 @@ if (document.querySelectorAll('.trackView').length > 0) {
     }
   });
 
+  // Bandcamp single/track page
   const nameElement = document.querySelector('.trackTitle');
   
   if (!scrapedSong.songName && nameElement) {
