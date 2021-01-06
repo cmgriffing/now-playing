@@ -31,18 +31,10 @@ if (document.querySelectorAll('.trackView').length > 0) {
     }
   });
 
-  
-  const albumSong = document.querySelector('.track_row_view');
-  
-
-  if (document.querySelector('span.fromAlbum')) {
-    scrapedSong.albumName = document.querySelector('span.fromAlbum').innerHTML;
-    scrapedSong.albumURL = document.querySelector('h3.albumTitle span a').href;
-  } else if (document.querySelector('h2.trackTitle') !== undefined && albumSong && albumSong.parentElement.children.length !== 1) {
-    var album = document.querySelector('h2.trackTitle').innerHTML.trim();
+  const trackTitle = document.querySelector('h2.trackTitle');
+  if(trackTitle){
+    const album = trackTitle.textContent.trim();
     scrapedSong.albumName = album;
-    scrapedSong.albumURL = window.location.href;
-  } else {
     scrapedSong.albumURL = window.location.href;
   }
 }
