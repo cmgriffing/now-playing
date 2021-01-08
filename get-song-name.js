@@ -18,10 +18,10 @@ if (document.querySelectorAll('.trackView').length > 0) {
   });
 
   // Bandcamp single/track page
-  const nameElement = document.querySelector('.trackTitle');
+  const trackTitle = document.querySelector('.trackView .trackTitle');
   
-  if (!scrapedSong.songName && nameElement) {
-    scrapedSong.songName = nameElement.innerHTML.trim();
+  if (!scrapedSong.songName && trackTitle) {
+    scrapedSong.songName = trackTitle.innerHTML.trim();
   }
 
   Array.from(document.querySelectorAll('#name-section h3')).map(row => {
@@ -31,7 +31,6 @@ if (document.querySelectorAll('.trackView').length > 0) {
     }
   });
 
-  const trackTitle = document.querySelector('h2.trackTitle');
   if(trackTitle){
     const album = trackTitle.textContent.trim();
     scrapedSong.albumName = album;
