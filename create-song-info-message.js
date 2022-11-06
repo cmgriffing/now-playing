@@ -13,8 +13,8 @@ module.exports = function createSongInfoMessage(song) {
     message += ` It is a track from the album ${song.albumName}.`;
   }
 
-  if (song.albumURL) {
-    message += ` You can find the album here: ${song.albumURL}`;
+  if (song.albumUrl) {
+    message += ` You can find the album here: ${song.albumUrl}`;
   }
   return message;
 };
