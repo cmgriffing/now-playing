@@ -1,5 +1,4 @@
 module.exports = function createSongInfoMessage(song) {
-
   let message = ``;
 
   if (song.songName && song.artistName) {
